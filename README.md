@@ -57,3 +57,20 @@ A simple yet functional clipboard manager for macOS that monitors clipboard chan
 
 3. **Access the interface:**
    - Click the system tray icon to show the main window
+
+### Build Command
+
+To package the application as a standalone macOS app, use the following PyInstaller command:
+
+```bash
+venv/bin/pyinstaller --windowed --noconfirm --name "ClipNest" --icon icon.icns --add-data "clip_app_icon_light.png:." --add-data "clip_app_icon_dark.png:." main.py
+```
+
+- `--windowed`: Runs the app without opening a terminal window.
+- `--noconfirm`: Overwrites any existing build files without prompting.
+- `--name`: Sets the name of the generated application.
+- `--icon`: Specifies the application icon (`.icns` format for macOS).
+- `--add-data`: Includes additional resource files (icons) in the build.
+- `main.py`: The entry point of your application.
+
+After running this command, the packaged app will be available in the `dist/ClipboardManager` directory, ready to run on macOS without requiring Python to be installed.

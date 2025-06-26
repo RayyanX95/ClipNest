@@ -1,5 +1,5 @@
 """
-User Interface module for the Clipboard Manager.
+User Interface module for ClipNest.
 """
 
 from datetime import datetime
@@ -27,7 +27,7 @@ from PyQt6.QtWidgets import (
 )
 
 
-class ClipboardItemWidget(QWidget):
+class ClipNestItemWidget(QWidget):
     """Custom widget for displaying clipboard items in the list."""
 
     def __init__(self, item_data, is_dark=True):
@@ -99,8 +99,8 @@ class ClipboardItemWidget(QWidget):
         self.setStyleSheet("background: transparent;")
 
 
-class ClipboardManagerUI(QMainWindow):
-    """Main UI window for the Clipboard Manager."""
+class ClipNestUI(QMainWindow):
+    """Main UI window for ClipNest."""
 
     def __init__(self, database, is_dark=True):
         super().__init__()
@@ -112,7 +112,7 @@ class ClipboardManagerUI(QMainWindow):
 
     def setup_ui(self):
         """Setup the main UI components."""
-        self.setWindowTitle("Clipboard Manager")
+        self.setWindowTitle("ClipNest")
         self.setGeometry(100, 100, 600, 500)
 
         # Central widget
@@ -225,12 +225,12 @@ class ClipboardManagerUI(QMainWindow):
                 f"Warning: Failed to load tray icon '{icon_path}'. Check the file path and PNG validity."
             )
         self.tray_icon.setIcon(icon)
-        self.tray_icon.setToolTip("Clipboard Manager")
+        self.tray_icon.setToolTip("ClipNest")
 
         # Create tray menu
         tray_menu = QMenu()
 
-        show_action = QAction("Show Clipboard Manager", self)
+        show_action = QAction("Show ClipNest", self)
         show_action.triggered.connect(self.show_window)
         tray_menu.addAction(show_action)
 
@@ -280,7 +280,7 @@ class ClipboardManagerUI(QMainWindow):
                 list_item = QListWidgetItem()
 
                 # Create custom widget with theme info
-                item_widget = ClipboardItemWidget(item_data, is_dark=self.is_dark)
+                item_widget = ClipNestItemWidget(item_data, is_dark=self.is_dark)
 
                 # Set the widget and store data
                 list_item.setSizeHint(item_widget.sizeHint())
@@ -325,7 +325,7 @@ class ClipboardManagerUI(QMainWindow):
                 list_item = QListWidgetItem()
 
                 # Create custom widget with theme info
-                item_widget = ClipboardItemWidget(item_data, is_dark=self.is_dark)
+                item_widget = ClipNestItemWidget(item_data, is_dark=self.is_dark)
 
                 # Set the widget and store data
                 list_item.setSizeHint(item_widget.sizeHint())

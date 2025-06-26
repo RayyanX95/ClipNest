@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Advanced Clipboard Manager for macOS - Simple Version
+ClipNest for macOS - Simple Version
 Main application entry point and orchestration.
 """
 
@@ -10,17 +10,17 @@ import sys
 from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import QApplication
 
-from clipboard_monitor import ClipboardMonitor
-from database import ClipboardDatabase
-from ui import ClipboardManagerUI
+from clipboard_monitor import ClipNestMonitor
+from database import ClipNestDatabase
+from ui import ClipNestUI
 
 
-class ClipboardManagerApp:
-    """Main application class that coordinates all components."""
+class ClipNestApp:
+    """Main application class that coordinates all components for ClipNest."""
 
     def __init__(self):
         self.app = QApplication(sys.argv)
-        self.app.setApplicationName("Clipboard Manager")
+        self.app.setApplicationName("ClipNest")
         self.app.setQuitOnLastWindowClosed(False)  # Keep running in background
 
         # Detect system appearance (macOS)
@@ -69,9 +69,9 @@ class ClipboardManagerApp:
             )
 
         # Initialize components
-        self.database = ClipboardDatabase()
-        self.monitor = ClipboardMonitor(self.database)
-        self.ui = ClipboardManagerUI(self.database, is_dark=is_dark)
+        self.database = ClipNestDatabase()
+        self.monitor = ClipNestMonitor(self.database)
+        self.ui = ClipNestUI(self.database, is_dark=is_dark)
 
         # Connect signals
         self.monitor.new_item_signal.connect(self.ui.refresh_history)
@@ -92,7 +92,7 @@ class ClipboardManagerApp:
 
     def run(self):
         """Start the application."""
-        print("Starting Clipboard Manager...")
+        print("Starting ClipNest...")
 
         # Start clipboard monitoring
         self.monitor.start_monitoring()
@@ -105,7 +105,7 @@ class ClipboardManagerApp:
 
     def shutdown(self):
         """Clean shutdown of all components."""
-        print("Shutting down Clipboard Manager...")
+        print("Shutting down ClipNest...")
         self.monitor.stop_monitoring()
         self.database.close()
         self.app.quit()
@@ -113,7 +113,7 @@ class ClipboardManagerApp:
 
 def main():
     """Main entry point."""
-    app = ClipboardManagerApp()
+    app = ClipNestApp()
     try:
         sys.exit(app.run())
     except KeyboardInterrupt:

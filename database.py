@@ -1,5 +1,5 @@
 """
-Database module for persistent storage of clipboard history.
+Database module for persistent storage of ClipNest clipboard history.
 """
 
 import os
@@ -8,8 +8,8 @@ from datetime import datetime
 from typing import List, Optional, Tuple
 
 
-class ClipboardDatabase:
-    """Handle SQLite database operations for clipboard history."""
+class ClipNestDatabase:
+    """Handle SQLite database operations for ClipNest clipboard history."""
 
     def __init__(self, db_path=None):
         """Initialize database connection and create tables if needed."""

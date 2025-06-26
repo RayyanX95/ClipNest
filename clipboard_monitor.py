@@ -1,5 +1,5 @@
 """
-Clipboard monitoring module for detecting and processing clipboard changes.
+Clipboard monitoring module for detecting and processing clipboard changes for ClipNest.
 """
 
 import threading
@@ -10,8 +10,8 @@ import pyperclip
 from PyQt6.QtCore import QObject, pyqtSignal
 
 
-class ClipboardMonitor(QObject):
-    """Monitor system clipboard for changes and store new items."""
+class ClipNestMonitor(QObject):
+    """Monitor system clipboard for changes and store new items for ClipNest."""
 
     # Signal emitted when a new item is added to clipboard
     new_item_signal = pyqtSignal()
