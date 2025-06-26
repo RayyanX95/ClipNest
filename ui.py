@@ -149,15 +149,18 @@ class ClipboardManagerUI(QMainWindow):
         # Create tray icon
         self.tray_icon = QSystemTrayIcon(self)
 
-        # Create a simple icon (you can replace with a proper icon file)
-        pixmap = QPixmap(16, 16)
-        pixmap.fill(QColor(100, 100, 100))
-        painter = QPainter(pixmap)
-        painter.setPen(QColor(255, 255, 255))
-        painter.drawText(pixmap.rect(), Qt.AlignmentFlag.AlignCenter, "CM")
-        painter.end()
+        # Use absolute path for the SVG icon
+        import os
 
-        self.tray_icon.setIcon(QIcon(pixmap))
+        icon_path = os.path.join(
+            os.path.dirname(os.path.abspath(__file__)), "clip_app_icon.svg"
+        )
+        icon = QIcon(icon_path)
+        if icon.isNull():
+            print(
+                f"Warning: Failed to load tray icon '{icon_path}'. Check the file path and SVG validity."
+            )
+        self.tray_icon.setIcon(icon)
         self.tray_icon.setToolTip("Clipboard Manager")
 
         # Create tray menu
