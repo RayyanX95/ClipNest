@@ -38,8 +38,16 @@ class ClipboardItemWidget(QWidget):
 
     def setup_ui(self):
         """Setup the item widget UI."""
-        layout = QVBoxLayout()
-        layout.setContentsMargins(8, 4, 8, 4)
+        # Card container layout
+        card_layout = QVBoxLayout()
+        card_layout.setContentsMargins(16, 4, 16, 4)  # Add spacing left/right
+        card_layout.setSpacing(0)
+
+        # Card widget for background/border
+        card_widget = QWidget()
+        card_widget_layout = QVBoxLayout()
+        card_widget_layout.setContentsMargins(12, 8, 12, 8)
+        card_widget_layout.setSpacing(4)
 
         # Content preview (first 100 characters)
         content = self.item_data["content"]
@@ -50,7 +58,7 @@ class ClipboardItemWidget(QWidget):
             main_color = "#f0f0f0"
             info_color = "#cccccc"
             bg_color = "#232629"
-            border = "none"
+            border = "1px solid #333"
         else:
             main_color = "#232629"
             info_color = "#555"
@@ -62,7 +70,7 @@ class ClipboardItemWidget(QWidget):
         content_label.setWordWrap(True)
         content_label.setTextFormat(Qt.TextFormat.PlainText)
         content_label.setStyleSheet(
-            f"QLabel {{ color: {main_color} !important; font-size: 12px; background: transparent; }}"
+            f"QLabel {{ color: {main_color} !important; font-size: 13px; background: transparent; }}"
         )
 
         # Info label (timestamp, type, favorite)
@@ -74,19 +82,21 @@ class ClipboardItemWidget(QWidget):
         info_text = f"{timestamp} • {self.item_data['content_type']}"
         if self.item_data["is_favorite"]:
             info_text += " • ⭐"
-
         info_label = QLabel(info_text)
         info_label.setStyleSheet(
             f"QLabel {{ color: {info_color} !important; font-size: 10px; background: transparent; }}"
         )
 
-        layout.addWidget(content_label)
-        layout.addWidget(info_label)
-
-        self.setLayout(layout)
-        self.setStyleSheet(
-            f"background: {bg_color}; border: {border}; border-radius: 6px;"
+        card_widget_layout.addWidget(content_label)
+        card_widget_layout.addWidget(info_label)
+        card_widget.setLayout(card_widget_layout)
+        card_widget.setStyleSheet(
+            f"background: {bg_color}; border: {border}; border-radius: 10px;"
         )
+
+        card_layout.addWidget(card_widget)
+        self.setLayout(card_layout)
+        self.setStyleSheet("background: transparent;")
 
 
 class ClipboardManagerUI(QMainWindow):
