@@ -74,3 +74,28 @@ venv/bin/pyinstaller --windowed --noconfirm --name "ClipNest" --icon icon.icns -
 - `main.py`: The entry point of your application.
 
 After running this command, the packaged app will be available in the `dist/ClipboardManager` directory, ready to run on macOS without requiring Python to be installed.
+
+### DMG Packaging Command
+
+To create a macOS disk image (DMG) for easy distribution, use the following `create-dmg` command:
+
+```bash
+create-dmg \
+   --volname "ClipNest" \
+   --window-pos 200 120 \
+   --window-size 500 300 \
+   --icon-size 100 \
+   --icon ClipNest.app 125 150 \
+   --app-drop-link 375 150 \
+   dist/ClipNest.dmg \
+   dist/ClipNest.app
+```
+
+- `--volname`: Sets the name of the mounted DMG volume.
+- `--window-pos` and `--window-size`: Define the position and size of the DMG window when opened.
+- `--icon-size`: Sets the size of the application icon in the DMG window.
+- `--icon`: Places the app icon at the specified coordinates.
+- `--app-drop-link`: Adds a shortcut to the Applications folder for easy installation.
+- The last two arguments specify the output DMG file and the app bundle to include.
+
+After running this command, you'll have a `ClipNest.dmg` file in the `dist` directory, which users can open and drag the app into their Applications folder.
