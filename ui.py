@@ -139,7 +139,7 @@ class ClipboardManagerUI(QMainWindow):
         pass
 
     def setup_menubar(self):
-        """Setup system tray icon and menu."""
+        """Setup system tray icon and menu with light/dark mode support."""
         if not QSystemTrayIcon.isSystemTrayAvailable():
             QMessageBox.critical(
                 None, "System Tray", "System tray is not available on this system."
@@ -149,12 +149,24 @@ class ClipboardManagerUI(QMainWindow):
         # Create tray icon
         self.tray_icon = QSystemTrayIcon(self)
 
-        # Use absolute path for the SVG icon
+        # Detect dark mode on macOS
         import os
+        import subprocess
 
-        icon_path = os.path.join(
-            os.path.dirname(os.path.abspath(__file__)), "clip_app_icon.svg"
-        )
+        icon_dir = os.path.dirname(os.path.abspath(__file__))
+        light_icon_path = os.path.join(icon_dir, "clip_app_icon_light.svg")
+        dark_icon_path = os.path.join(icon_dir, "clip_app_icon_dark.svg")
+        icon_path = light_icon_path
+        try:
+            result = subprocess.run(
+                ["defaults", "read", "-g", "AppleInterfaceStyle"],
+                capture_output=True,
+                text=True,
+            )
+            if result.returncode == 0 and "Dark" in result.stdout:
+                icon_path = dark_icon_path
+        except Exception as e:
+            print(f"Could not detect system appearance: {e}")
         icon = QIcon(icon_path)
         if icon.isNull():
             print(
