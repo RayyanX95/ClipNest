@@ -43,7 +43,7 @@ class ClipboardItemWidget(QWidget):
         card_layout.setContentsMargins(16, 4, 16, 4)  # Add spacing left/right
         card_layout.setSpacing(0)
 
-        # Card widget for background/border
+        # Card widget for background (no border)
         card_widget = QWidget()
         card_widget_layout = QVBoxLayout()
         card_widget_layout.setContentsMargins(12, 8, 12, 8)
@@ -58,12 +58,12 @@ class ClipboardItemWidget(QWidget):
             main_color = "#f0f0f0"
             info_color = "#cccccc"
             bg_color = "#232629"
-            border = "1px solid #333"
+            border = "none"
         else:
             main_color = "#232629"
             info_color = "#555"
             bg_color = "#fff"
-            border = "1px solid #eee"
+            border = "none"
 
         # Content label
         content_label = QLabel(preview)
