@@ -7,10 +7,11 @@ Main application entry point and orchestration.
 import signal
 import sys
 
-from clipboard_monitor import ClipboardMonitor
-from database import ClipboardDatabase
 from PyQt6.QtCore import QTimer
 from PyQt6.QtWidgets import QApplication
+
+from clipboard_monitor import ClipboardMonitor
+from database import ClipboardDatabase
 from ui import ClipboardManagerUI
 
 
@@ -21,6 +22,21 @@ class ClipboardManagerApp:
         self.app = QApplication(sys.argv)
         self.app.setApplicationName("Clipboard Manager")
         self.app.setQuitOnLastWindowClosed(False)  # Keep running in background
+
+        # Apply dark theme stylesheet
+        self.app.setStyleSheet(
+            """
+            QWidget { background-color: #232629; color: #f0f0f0; }
+            QLineEdit, QTextEdit { background-color: #2b2b2b; color: #f0f0f0; border: 1px solid #444; }
+            QListWidget, QListWidgetItem { background-color: #232629; color: #f0f0f0; }
+            QPushButton { background-color: #444; color: #f0f0f0; border: 1px solid #666; padding: 4px 12px; border-radius: 4px; }
+            QPushButton:hover { background-color: #555; }
+            QLabel { color: #f0f0f0; }
+            QMenu { background-color: #232629; color: #f0f0f0; }
+            QMenu::item:selected { background-color: #444; }
+            QStatusBar { background: #232629; color: #f0f0f0; }
+        """
+        )
 
         # Initialize components
         self.database = ClipboardDatabase()

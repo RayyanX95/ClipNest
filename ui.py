@@ -47,7 +47,7 @@ class ClipboardItemWidget(QWidget):
         # Content label
         content_label = QLabel(preview)
         content_label.setWordWrap(True)
-        content_label.setStyleSheet("QLabel { color: #333; font-size: 12px; }")
+        content_label.setStyleSheet("QLabel { color: #f0f0f0; font-size: 12px; }")
 
         # Info label (timestamp, type, favorite)
         timestamp = datetime.fromisoformat(self.item_data["timestamp"]).strftime(
@@ -58,7 +58,7 @@ class ClipboardItemWidget(QWidget):
             info_text += " • ⭐"
 
         info_label = QLabel(info_text)
-        info_label.setStyleSheet("QLabel { color: #666; font-size: 10px; }")
+        info_label.setStyleSheet("QLabel { color: #cccccc; font-size: 10px; }")
 
         layout.addWidget(content_label)
         layout.addWidget(info_label)
