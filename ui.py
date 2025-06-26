@@ -30,9 +30,10 @@ from PyQt6.QtWidgets import (
 class ClipboardItemWidget(QWidget):
     """Custom widget for displaying clipboard items in the list."""
 
-    def __init__(self, item_data):
+    def __init__(self, item_data, is_dark=True):
         super().__init__()
         self.item_data = item_data
+        self.is_dark = is_dark
         self.setup_ui()
 
     def setup_ui(self):
@@ -44,12 +45,29 @@ class ClipboardItemWidget(QWidget):
         content = self.item_data["content"]
         preview = content[:100] + "..." if len(content) > 100 else content
 
+        # Choose text colors and background based on theme
+        if self.is_dark:
+            main_color = "#f0f0f0"
+            info_color = "#cccccc"
+            bg_color = "#232629"
+            border = "none"
+        else:
+            main_color = "#232629"
+            info_color = "#555"
+            bg_color = "#fff"
+            border = "1px solid #eee"
+
         # Content label
         content_label = QLabel(preview)
         content_label.setWordWrap(True)
-        content_label.setStyleSheet("QLabel { color: #f0f0f0; font-size: 12px; }")
+        content_label.setTextFormat(Qt.TextFormat.PlainText)
+        content_label.setStyleSheet(
+            f"QLabel {{ color: {main_color} !important; font-size: 12px; background: transparent; }}"
+        )
 
         # Info label (timestamp, type, favorite)
+        from datetime import datetime
+
         timestamp = datetime.fromisoformat(self.item_data["timestamp"]).strftime(
             "%m/%d %H:%M"
         )
@@ -58,21 +76,27 @@ class ClipboardItemWidget(QWidget):
             info_text += " • ⭐"
 
         info_label = QLabel(info_text)
-        info_label.setStyleSheet("QLabel { color: #cccccc; font-size: 10px; }")
+        info_label.setStyleSheet(
+            f"QLabel {{ color: {info_color} !important; font-size: 10px; background: transparent; }}"
+        )
 
         layout.addWidget(content_label)
         layout.addWidget(info_label)
 
         self.setLayout(layout)
+        self.setStyleSheet(
+            f"background: {bg_color}; border: {border}; border-radius: 6px;"
+        )
 
 
 class ClipboardManagerUI(QMainWindow):
     """Main UI window for the Clipboard Manager."""
 
-    def __init__(self, database):
+    def __init__(self, database, is_dark=True):
         super().__init__()
         self.database = database
         self.tray_icon = None
+        self.is_dark = is_dark
         self.setup_ui()
         self.setup_shortcuts()
 
@@ -227,8 +251,8 @@ class ClipboardManagerUI(QMainWindow):
                 # Create list item
                 list_item = QListWidgetItem()
 
-                # Create custom widget
-                item_widget = ClipboardItemWidget(item_data)
+                # Create custom widget with theme info
+                item_widget = ClipboardItemWidget(item_data, is_dark=self.is_dark)
 
                 # Set the widget and store data
                 list_item.setSizeHint(item_widget.sizeHint())
@@ -272,8 +296,8 @@ class ClipboardManagerUI(QMainWindow):
                 # Create list item
                 list_item = QListWidgetItem()
 
-                # Create custom widget
-                item_widget = ClipboardItemWidget(item_data)
+                # Create custom widget with theme info
+                item_widget = ClipboardItemWidget(item_data, is_dark=self.is_dark)
 
                 # Set the widget and store data
                 list_item.setSizeHint(item_widget.sizeHint())

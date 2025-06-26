@@ -23,25 +23,55 @@ class ClipboardManagerApp:
         self.app.setApplicationName("Clipboard Manager")
         self.app.setQuitOnLastWindowClosed(False)  # Keep running in background
 
-        # Apply dark theme stylesheet
-        self.app.setStyleSheet(
-            """
-            QWidget { background-color: #232629; color: #f0f0f0; }
-            QLineEdit, QTextEdit { background-color: #2b2b2b; color: #f0f0f0; border: 1px solid #444; }
-            QListWidget, QListWidgetItem { background-color: #232629; color: #f0f0f0; }
-            QPushButton { background-color: #444; color: #f0f0f0; border: 1px solid #666; padding: 4px 12px; border-radius: 4px; }
-            QPushButton:hover { background-color: #555; }
-            QLabel { color: #f0f0f0; }
-            QMenu { background-color: #232629; color: #f0f0f0; }
-            QMenu::item:selected { background-color: #444; }
-            QStatusBar { background: #232629; color: #f0f0f0; }
-        """
-        )
+        # Detect system appearance (macOS)
+        import subprocess
+
+        is_dark = False
+        try:
+            result = subprocess.run(
+                ["defaults", "read", "-g", "AppleInterfaceStyle"],
+                capture_output=True,
+                text=True,
+            )
+            if result.returncode == 0 and "Dark" in result.stdout:
+                is_dark = True
+        except Exception as e:
+            print(f"Could not detect system appearance: {e}")
+
+        # Apply theme stylesheet
+        if is_dark:
+            self.app.setStyleSheet(
+                """
+                QWidget { background-color: #232629; color: #f0f0f0; }
+                QLineEdit, QTextEdit { background-color: #2b2b2b; color: #f0f0f0; border: 1px solid #444; }
+                QListWidget, QListWidgetItem { background-color: #232629; color: #f0f0f0; }
+                QPushButton { background-color: #444; color: #f0f0f0; border: 1px solid #666; padding: 4px 12px; border-radius: 4px; }
+                QPushButton:hover { background-color: #555; }
+                QLabel { color: #f0f0f0; }
+                QMenu { background-color: #232629; color: #f0f0f0; }
+                QMenu::item:selected { background-color: #444; }
+                QStatusBar { background: #232629; color: #f0f0f0; }
+                """
+            )
+        else:
+            self.app.setStyleSheet(
+                """
+                QWidget { background-color: #f6f6f6; color: #232629; }
+                QLineEdit, QTextEdit { background-color: #fff; color: #232629; border: 1px solid #bbb; }
+                QListWidget, QListWidgetItem { background-color: #f6f6f6; color: #232629; }
+                QPushButton { background-color: #e0e0e0; color: #232629; border: 1px solid #bbb; padding: 4px 12px; border-radius: 4px; }
+                QPushButton:hover { background-color: #d0d0d0; }
+                QLabel { color: #232629; }
+                QMenu { background-color: #f6f6f6; color: #232629; }
+                QMenu::item:selected { background-color: #e0e0e0; }
+                QStatusBar { background: #f6f6f6; color: #232629; }
+                """
+            )
 
         # Initialize components
         self.database = ClipboardDatabase()
         self.monitor = ClipboardMonitor(self.database)
-        self.ui = ClipboardManagerUI(self.database)
+        self.ui = ClipboardManagerUI(self.database, is_dark=is_dark)
 
         # Connect signals
         self.monitor.new_item_signal.connect(self.ui.refresh_history)
