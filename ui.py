@@ -136,6 +136,19 @@ class ClipboardManagerUI(QMainWindow):
         self.history_list = QListWidget()
         self.history_list.itemClicked.connect(self.on_item_clicked)
         self.history_list.itemDoubleClicked.connect(self.on_item_double_clicked)
+        # Set custom selection color for light theme
+        self.history_list.setStyleSheet(
+            """
+            QListWidget::item:selected {
+                background: #e6e6e6;
+                color: #232629;
+                border-radius: 10px;
+            }
+            QListWidget::item:focus {
+                outline: none;
+            }
+            """
+        )
         layout.addWidget(self.history_list)
 
         # Button layout
