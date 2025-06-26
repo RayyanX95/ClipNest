@@ -1,0 +1,11 @@
+# Advanced Clipboard Manager for macOS - Requirements
+# Install with: pip install -r requirements.txt
+
+# GUI Framework
+PyQt6>=6.4.0
+
+# Clipboard operations
+pyperclip>=1.8.2
+
+# Optional: For more advanced macOS integration later
+# PyObjC>=9.0  # Uncomment for native macOS features
