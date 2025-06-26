@@ -196,13 +196,18 @@ class ClipboardManagerUI(QMainWindow):
         # Create tray icon
         self.tray_icon = QSystemTrayIcon(self)
 
-        # Detect dark mode on macOS
+        # Robust icon path resolution for PyInstaller bundle
         import os
         import subprocess
+        import sys
 
-        icon_dir = os.path.dirname(os.path.abspath(__file__))
-        light_icon_path = os.path.join(icon_dir, "clip_app_icon_light.svg")
-        dark_icon_path = os.path.join(icon_dir, "clip_app_icon_dark.svg")
+        if getattr(sys, "frozen", False):
+            # PyInstaller bundle: use _MEIPASS if available
+            icon_dir = getattr(sys, "_MEIPASS", os.path.dirname(sys.executable))
+        else:
+            icon_dir = os.path.dirname(os.path.abspath(__file__))
+        light_icon_path = os.path.join(icon_dir, "clip_app_icon_light.png")
+        dark_icon_path = os.path.join(icon_dir, "clip_app_icon_dark.png")
         icon_path = light_icon_path
         try:
             result = subprocess.run(
@@ -217,7 +222,7 @@ class ClipboardManagerUI(QMainWindow):
         icon = QIcon(icon_path)
         if icon.isNull():
             print(
-                f"Warning: Failed to load tray icon '{icon_path}'. Check the file path and SVG validity."
+                f"Warning: Failed to load tray icon '{icon_path}'. Check the file path and PNG validity."
             )
         self.tray_icon.setIcon(icon)
         self.tray_icon.setToolTip("Clipboard Manager")
