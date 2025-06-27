@@ -1,6 +1,6 @@
-# Advanced Clipboard Manager for macOS - Simple Version
+# ClipNest for macOS - Simple Version
 
-A simple yet functional clipboard Nest for macOS that monitors clipboard changes and provides a searchable history with favorites.
+A simple yet functional ClipNest clipboard manager for macOS that monitors clipboard changes and provides a searchable history with favorites.
 
 ## Features (Simple Version)
 
@@ -24,9 +24,7 @@ A simple yet functional clipboard Nest for macOS that monitors clipboard changes
 1. **Clone or download the project files**
 
    ```bash
-   mkdir clipboard_manager
-   cd clipboard_manager
-   # Place all the Python files in this directory
+   git clone https://github.com/RayyanX95/ClipNest.git
    ```
 
 2. **Create a virtual environment (recommended)**
@@ -53,7 +51,7 @@ A simple yet functional clipboard Nest for macOS that monitors clipboard changes
 
    - Start monitoring your clipboard
    - Show a small icon in the system tray/menubar
-   - Begin storing clipboard history in `~/.clipboard_manager/clipboard_history.db`
+   - Begin storing clipboard history in `~/.clipnest/clipboard_history.db`
 
 3. **Access the interface:**
    - Click the system tray icon to show the main window
@@ -63,7 +61,7 @@ A simple yet functional clipboard Nest for macOS that monitors clipboard changes
 To package the application as a standalone macOS app, use the following PyInstaller command:
 
 ```bash
-venv/bin/pyinstaller --windowed --noconfirm --name "ClipboardManager" --icon icon.icns --add-data "clip_app_icon_light.png:." --add-data "clip_app_icon_dark.png:." main.py
+venv/bin/pyinstaller --windowed --noconfirm --name "ClipNest" --icon icon.icns --add-data "clip_app_icon_light.png:." --add-data "clip_app_icon_dark.png:." main.py
 ```
 
 - `--windowed`: Runs the app without opening a terminal window.
@@ -73,4 +71,4 @@ venv/bin/pyinstaller --windowed --noconfirm --name "ClipboardManager" --icon ico
 - `--add-data`: Includes additional resource files (icons) in the build.
 - `main.py`: The entry point of your application.
 
-After running this command, the packaged app will be available in the `dist/ClipboardManager` directory, ready to run on macOS without requiring Python to be installed.
+After running this command, the packaged app will be available in the `dist/ClipNest` directory, ready to run on macOS without requiring Python to be installed.
