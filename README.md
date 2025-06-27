@@ -99,3 +99,20 @@ create-dmg \
 - The last two arguments specify the output DMG file and the app bundle to include.
 
 After running this command, you'll have a `ClipNest.dmg` file in the `dist` directory, which users can open and drag the app into their Applications folder.
+
+### DMG Packaging Commands for Apple Silicon and Intel Builds
+
+Below are example commands to create DMG installers for both Apple Silicon (arm64) and Intel (x86_64) versions of the app. This allows you to distribute native builds optimized for each architecture.
+
+- **Apple Silicon (arm64):**
+
+  ```bash
+  create-dmg --volname "ClipNest (Apple Silicon)" --window-pos 200 120 --window-size 500 300 --icon-size 100 --icon ClipNest-arm64.app 125 150 --app-drop-link 375 150 dist/ClipNest-arm64.dmg dist/ClipNest-arm64.app
+  ```
+
+- **Intel (x86_64):**
+  ```bash
+  create-dmg --volname "ClipNest (Intel)" --window-pos 200 120 --window-size 500 300 --icon-size 100 --icon ClipNest-x86_64.app 125 150 --app-drop-link 375 150 dist/ClipNest-x86_64.dmg dist/ClipNest-x86_64.app
+  ```
+
+Each command generates a `.dmg` file in the `dist` directory, ready for distribution to users on the corresponding Mac architecture.
