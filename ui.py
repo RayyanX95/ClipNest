@@ -152,7 +152,7 @@ class ClipNestUI(QMainWindow):
         self.history_list.setStyleSheet(
             """
             QListWidget::item:selected {
-                background: #e6e6e6;
+                background: transparent;
                 color: #232629;
                 border-radius: 10px;
             }
