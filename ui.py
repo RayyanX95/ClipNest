@@ -58,11 +58,13 @@ class ClipNestItemWidget(QWidget):
             main_color = "#f0f0f0"
             info_color = "#cccccc"
             bg_color = "#343434"
+            hover_bg_color = "#464646"
             border = "none"
         else:
             main_color = "#232629"
-            info_color = "#555"
-            bg_color = "#fff"
+            info_color = "#555555"
+            bg_color = "#ede6e6"
+            hover_bg_color = "#ffffff"
             border = "none"
 
         # Content label
@@ -91,7 +93,17 @@ class ClipNestItemWidget(QWidget):
         card_widget_layout.addWidget(info_label)
         card_widget.setLayout(card_widget_layout)
         card_widget.setStyleSheet(
-            f"background: {bg_color}; border: {border}; border-radius: 10px;"
+            f"""    
+            QWidget {{
+            background: {bg_color};
+            border: {border};
+            border-radius: 10px;
+            cursor: pointer;
+            }}
+            QWidget:hover {{
+            background: {hover_bg_color};
+            }}
+            """
         )
 
         card_layout.addWidget(card_widget)
