@@ -57,7 +57,7 @@ class ClipNestItemWidget(QWidget):
         if self.is_dark:
             main_color = "#f0f0f0"
             info_color = "#cccccc"
-            bg_color = "#232629"
+            bg_color = "#343434"
             border = "none"
         else:
             main_color = "#232629"
