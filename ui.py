@@ -50,8 +50,25 @@ class ClipNestItemWidget(QWidget):
         card_widget_layout.setSpacing(4)
 
         # Content preview (first 100 characters)
-        content = self.item_data["content"]
-        preview = content[:100] + "..." if len(content) > 100 else content
+        content_type = self.item_data.get("content_type", "text")
+        if content_type == "image":
+            # Show image thumbnail
+            pixmap = QPixmap(self.item_data["content"])
+            img_label = QLabel()
+            img_label.setPixmap(
+                pixmap.scaled(
+                    120,
+                    120,
+                    Qt.AspectRatioMode.KeepAspectRatio,
+                    Qt.TransformationMode.SmoothTransformation,
+                )
+            )
+            card_widget_layout.addWidget(img_label)
+            preview = "[Image] " + self.item_data["content"]
+        else:
+            # Text content
+            content = self.item_data["content"]
+            preview = content[:100] + "..." if len(content) > 100 else content
 
         # Choose text colors and background based on theme
         if self.is_dark:
@@ -148,7 +165,6 @@ class ClipNestUI(QMainWindow):
         self.history_list = QListWidget()
         self.history_list.itemClicked.connect(self.on_item_clicked)
         self.history_list.itemDoubleClicked.connect(self.on_item_double_clicked)
-        # Set custom selection color for light theme
         self.history_list.setStyleSheet(
             """
             QListWidget::item:selected {
@@ -356,11 +372,21 @@ class ClipNestUI(QMainWindow):
         try:
             item_data = item.data(Qt.ItemDataRole.UserRole)
             content = item_data["content"]
+            content_type = item_data.get("content_type", "text")
+            from PyQt6.QtGui import QImage
+            from PyQt6.QtWidgets import QApplication
 
-            # Copy to clipboard
-            pyperclip.copy(content)
-
-            self.status_label.setText("Copied to clipboard!")
+            clipboard = QApplication.instance().clipboard()
+            if content_type == "image":
+                image = QImage(content)
+                if not image.isNull():
+                    clipboard.setImage(image)
+                    self.status_label.setText("Image copied to clipboard!")
+                else:
+                    self.status_label.setText("Error loading image file.")
+            else:
+                pyperclip.copy(content)
+                self.status_label.setText("Copied to clipboard!")
 
             # Clear status after 2 seconds
             QTimer.singleShot(2000, lambda: self.status_label.setText("Ready"))

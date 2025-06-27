@@ -48,7 +48,7 @@ class ClipNestDatabase:
                 CREATE TABLE IF NOT EXISTS clipboard_items (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     content_type TEXT NOT NULL,
-                    content TEXT NOT NULL,
+                    content TEXT NOT NULL,  -- For images, this is the file path
                     timestamp DATETIME NOT NULL,
                     is_favorite BOOLEAN DEFAULT FALSE,
                     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
